@@ -198,15 +198,15 @@ function extractEmails(str) {
  *             '└──────────┘\n'
  *
  */
-// function getRectangleString(width, height) {
-//   const horizontal = '─';
-//   const vertical = '│';
-//   const str = '┌┐\n'
-//   + '└┘\n';
-//   str.split('').splice(1, 0, horizontal.repeat(width - 2));
-//   return String.raw(str);
-//   throw new Error('Not implemented');
-// }
+function getRectangleString(/* width, height */) {
+  // const horizontal = '─';
+  // const vertical = '│';
+  // const str = '┌┐\n'
+  // + '└┘\n';
+  // str.split('').splice(1, 0, horizontal.repeat(width - 2));
+  // return String.raw(str);
+  throw new Error('Not implemented');
+}
 
 /**
  * Encode specified string with ROT13 cipher
@@ -224,15 +224,21 @@ function extractEmails(str) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-// function encodeToRot13(str) {
-//   str.split('').map((item) => {
-//     let index = str.indexOf(item);
-//     item.match(/[A-Ma-m]/) ? item.charCodeAt(index) += 13
-// : item.match(/[N-Zn-z]/) ? item.charCodeAt(index) -= 13 : continue;
-//     return str;
-//   });
-//   return str.join('');
-// }
+function encodeToRot13(str) {
+  const newArr = [];
+  str.split('').map((item) => {
+    const index = str.indexOf(item);
+    if (item.match(/[A-Ma-m]/)) {
+      newArr.push(String.fromCharCode(str.charCodeAt(index) + 13));
+    } else if (item.match(/[N-Zn-z]/)) {
+      newArr.push(String.fromCharCode(str.charCodeAt(index) - 13));
+    } else {
+      newArr.push(item);
+    }
+    return newArr;
+  });
+  return newArr.join('');
+}
 
 /**
  * Returns true if the value is string; otherwise false.
@@ -248,10 +254,7 @@ function extractEmails(str) {
  *   isString(new String('test')) => true
  */
 function isString(value) {
-  if (value.includes('new String')) {
-    return true;
-  }
-  return (typeof (value) === 'string');
+  return (typeof (value) === 'string' || value instanceof String);
 }
 
 /**
@@ -278,8 +281,12 @@ function isString(value) {
  *   'Q♠' => 50
  *   'K♠' => 51
  */
-function getCardId(/* value */) {
-  throw new Error('Not implemented');
+function getCardId(value) {
+  const deck = ['A♣', '2♣', '3♣', '4♣', '5♣', '6♣', '7♣', '8♣', '9♣', '10♣', 'J♣', 'Q♣', 'K♣',
+    'A♦', '2♦', '3♦', '4♦', '5♦', '6♦', '7♦', '8♦', '9♦', '10♦', 'J♦', 'Q♦', 'K♦',
+    'A♥', '2♥', '3♥', '4♥', '5♥', '6♥', '7♥', '8♥', '9♥', '10♥', 'J♥', 'Q♥', 'K♥',
+    'A♠', '2♠', '3♠', '4♠', '5♠', '6♠', '7♠', '8♠', '9♠', '10♠', 'J♠', 'Q♠', 'K♠'];
+  return deck.indexOf(value);
 }
 
 module.exports = {
@@ -294,8 +301,8 @@ module.exports = {
   unbracketTag,
   convertToUpperCase,
   extractEmails,
-  // getRectangleString,
-  // encodeToRot13,
+  getRectangleString,
+  encodeToRot13,
   isString,
   getCardId,
 };
