@@ -19,8 +19,15 @@
  *    console.log(r.height);      // => 20
  *    console.log(r.getArea());   // => 200
  */
-function Rectangle(/* width, height */) {
-  throw new Error('Not implemented');
+function Rectangle(width, height) {
+  const r = {
+    width,
+    height,
+    getArea() {
+      return width * height;
+    },
+  };
+  return r;
 }
 
 /**
@@ -33,8 +40,8 @@ function Rectangle(/* width, height */) {
  *    [1,2,3]   =>  '[1,2,3]'
  *    { width: 10, height : 20 } => '{"height":10,"width":20}'
  */
-function getJSON(/* obj */) {
-  throw new Error('Not implemented');
+function getJSON(obj) {
+  return JSON.stringify(obj);
 }
 
 /**
@@ -48,8 +55,10 @@ function getJSON(/* obj */) {
  *    const r = fromJSON(Circle.prototype, '{"radius":10}');
  *
  */
-function fromJSON(/* proto, json */) {
-  throw new Error('Not implemented');
+function fromJSON(proto, json) {
+  const obj = JSON.parse(json);
+  Object.setPrototypeOf(obj, proto);
+  return obj;
 }
 
 /**
@@ -135,6 +144,52 @@ const cssSelectorBuilder = {
     throw new Error('Not implemented');
   },
 };
+// const cssSelectorBuilder = {
+//   element(value) {
+//     this.value = value;
+//     return this;
+//     // console.log(this);
+//   },
+
+//   id(value) {
+//     this.value += `#${value}`;
+//     return this;
+//   },
+
+//   class(value) {
+//     this.value += `.${value}`;
+//     return this;
+//   },
+
+//   attr(value) {
+//     this.value += `[${value}]`;
+//     return this;
+//   },
+
+//   pseudoClass(value) {
+//     this.value += `:${value}`;
+//     return this;
+//   },
+
+//   pseudoElement(value) {
+//     this.value += `::${value}`;
+//     return this;
+//   },
+
+//   combine(selector1, combinator, selector2) {
+//     const item1 = cssSelectorBuilder;
+//     item1.value = selector1;
+//     const item2 = cssSelectorBuilder;
+//     item2.value = selector2;
+//     // console.log(item1.value);
+//     // console.log(selector2.value);
+//     // this.value += `${selector1.value} ${selector2.value}`;
+//     return this;
+//   },
+//   stringify() {
+//     return this.value;
+//   },
+// };
 
 module.exports = {
   Rectangle,

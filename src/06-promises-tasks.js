@@ -30,6 +30,9 @@
 function willYouMarryMe(/* isPositiveAnswer */) {
   throw new Error('Not implemented');
 }
+// function willYouMarryMe(isPositiveAnswer) {
+//   .then();
+// }
 
 /**
  * Return Promise object that should be resolved with array containing plain values.
