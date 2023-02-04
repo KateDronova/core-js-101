@@ -27,12 +27,21 @@
  *      .catch((error) => console.log(error.message)) // 'Error: Wrong parameter is passed!
  *                                                    //  Ask her again.';
  */
-function willYouMarryMe(/* isPositiveAnswer */) {
-  throw new Error('Not implemented');
+function willYouMarryMe(isPositiveAnswer) {
+  return new Promise((resolve, reject) => {
+    let answer;
+    const error = 'Wrong parameter is passed! Ask her again.';
+    if (isPositiveAnswer === true) {
+      answer = 'Hooray!!! She said "Yes"!';
+      resolve(answer);
+    } else if (isPositiveAnswer === false) {
+      answer = 'Oh no, she said "No".';
+      resolve(answer);
+    } else {
+      reject(new Error(error));
+    }
+  });
 }
-// function willYouMarryMe(isPositiveAnswer) {
-//   .then();
-// }
 
 /**
  * Return Promise object that should be resolved with array containing plain values.
@@ -49,8 +58,15 @@ function willYouMarryMe(/* isPositiveAnswer */) {
  *    })
  *
  */
-function processAllPromises(/* array */) {
-  throw new Error('Not implemented');
+function processAllPromises(array) {
+  const result = [];
+  Promise.all(array)
+    .then((values) => {
+      values.map((item, index) => result.push(index + 1));
+    });
+  return new Promise((resolve) => {
+    resolve(result);
+  });
 }
 
 /**
@@ -72,8 +88,11 @@ function processAllPromises(/* array */) {
  *    })
  *
  */
-function getFastestPromise(/* array */) {
-  throw new Error('Not implemented');
+function getFastestPromise(array) {
+  const result = Promise.race(array);
+  return new Promise((resolve) => {
+    resolve(result);
+  });
 }
 
 /**
@@ -93,6 +112,14 @@ function getFastestPromise(/* array */) {
  *    });
  *
  */
+// function chainPromises(array, action) {
+//   const arrOfValues = array.map((item) => item.value);
+//   const result = arrOfValues.reduce(action, 0);
+//   return new Promise((resolve, reject) => {
+//     resolve(result);
+//     reject(new Error('Error!'));
+//   });
+// }
 function chainPromises(/* array, action */) {
   throw new Error('Not implemented');
 }

@@ -372,8 +372,45 @@ function getDigitalRoot(num) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  if (str.length % 2 !== 0) {
+    return false;
+  }
+  for (let i = 0; i < str.length; i += 1) {
+    if (str[i] === '[' || str[i] === ']') {
+      if (str.indexOf(']') < str.indexOf('[')) {
+        return false;
+      }
+    }
+    if (str[i] === '(' || str[i] === ')') {
+      if (str.indexOf(')') < str.indexOf('(')) {
+        return false;
+      }
+    }
+    if (str[i] === '<' || str[i] === '>') {
+      if (str.indexOf('>') < str.indexOf('<')) {
+        return false;
+      }
+    }
+    if (str[i] === '{' || str[i] === '}') {
+      if (str.indexOf('}') < str.indexOf('{')) {
+        return false;
+      }
+    }
+  }
+  const arr = ['[', ']', '(', ')', '{', '}', '<', '>'];
+  let j = 0;
+  for (let k = 0; j < arr.length; k += 2) {
+    if (str.slice(str.indexOf(arr[j]), str.indexOf(arr[j + 1]) + 1).includes(arr[k])
+    && !str.slice(str.indexOf(arr[j]), str.lastIndexOf(arr[j + 1]) + 1).includes(arr[k + 1])) {
+      return false;
+    }
+    if (k >= 6) {
+      k = -2;
+      j += 2;
+    }
+  }
+  return true;
 }
 
 /**
@@ -396,8 +433,8 @@ function isBracketsBalanced(/* str */) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  return num.toString(n);
 }
 
 /**
@@ -412,8 +449,29 @@ function toNaryString(/* num, n */) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  let result = '';
+  let k = 1;
+  for (let j = 0; j < pathes[k].length; j += 1) {
+    if (pathes[k][j] === pathes[0][j]) {
+      result += `${pathes[0][j]}`;
+    } else {
+      result = result.slice(0, result.lastIndexOf('/') + 1);
+      break;
+    }
+  }
+  k += 1;
+
+  while (k < pathes.length) {
+    for (let i = 0; i < result.length; i += 1) {
+      if (pathes[k][i] !== result[i]) {
+        result = result.slice(0, i);
+        break;
+      }
+    }
+    k += 1;
+  }
+  return result;
 }
 
 /**
@@ -434,8 +492,50 @@ function getCommonDirectoryPath(/* pathes */) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+// function getMatrixProduct(/* m1, m2 */) {
+//   throw new Error('Not implemented');
+// }
+function getMatrixProduct(m1, m2) {
+  const result = [];
+  const result1 = [];
+  const result2 = [];
+  const result3 = [];
+  for (let i = 0, k = 0; k < m1.length;) {
+    const newItem1 = m1[k][0] * m2[0][i]
+    + m1[k][1] * m2[1][i]
+    + m1[k][2] * m2[2][i];
+
+    if (result1.length < m1.length) {
+      result1.push(newItem1);
+      i += 1;
+      if (m1.length === 1) {
+        break;
+      }
+      if (result1.length === 3) {
+        i = 0;
+        k += 1;
+      }
+    } else if (result2.length < m1.length) {
+      result2.push(newItem1);
+      i += 1;
+      if (result2.length === 3) {
+        i = 0;
+        k += 1;
+      }
+    } else if (result3.length < m1.length) {
+      result3.push(newItem1);
+      i += 1;
+      if (result3.length === 3) {
+        i = 0;
+        k += 1;
+      }
+    }
+  }
+  result.push(result1);
+  if (m1.length > 1) {
+    result.push(result2, result3);
+  }
+  return result;
 }
 
 /**
@@ -468,8 +568,75 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+// function evaluateTicTacToePosition(/* position */) {
+//   throw new Error('Not implemented');
+// }
+function evaluateTicTacToePosition(position) {
+  for (let i = 0; i < 3; i += 1) {
+    if (position[i][0] === position[i][1]
+    && position[i][0] === position[i][2]
+    && position[i][0] === 'O') {
+      return 'O';
+    }
+    if (position[i][0] === position[i][1]
+    && position[i][0] === position[i][2]
+    && position[i][0] === '0') {
+      return '0';
+    }
+    if (position[i][0] === position[i][1]
+    && position[i][0] === position[i][2]
+    && position[i][0] === 'X') {
+      return 'X';
+    }
+  }
+  for (let i = 0; i < 3; i += 1) {
+    if (position[0][i] === position[1][i]
+    && position[0][i] === position[2][i]
+    && position[0][i] === 'O') {
+      return 'O';
+    }
+    if (position[0][i] === position[1][i]
+    && position[0][i] === position[2][i]
+    && position[0][i] === '0') {
+      return '0';
+    }
+    if (position[0][i] === position[1][i]
+    && position[0][i] === position[2][i]
+    && position[0][i] === 'X') {
+      return 'X';
+    }
+  }
+  if (position[0][0] === position[1][1]
+  && position[0][0] === position[2][2]
+  && position[0][0] === 'O') {
+    return 'O';
+  }
+  if (position[0][0] === position[1][1]
+  && position[0][0] === position[2][2]
+  && position[0][0] === '0') {
+    return '0';
+  }
+  if (position[0][0] === position[1][1]
+  && position[0][0] === position[2][2]
+  && position[0][0] === 'X') {
+    return 'X';
+  }
+  if (position[0][2] === position[1][1]
+  && position[0][2] === position[2][0]
+  && position[0][2] === 'O') {
+    return 'O';
+  }
+  if (position[0][2] === position[1][1]
+  && position[0][2] === position[2][0]
+  && position[0][2] === '0') {
+    return '0';
+  }
+  if (position[0][2] === position[1][1]
+  && position[0][2] === position[2][0]
+  && position[0][2] === 'X') {
+    return 'X';
+  }
+  return undefined;
 }
 
 module.exports = {

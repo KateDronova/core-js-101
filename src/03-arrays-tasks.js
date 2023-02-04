@@ -269,13 +269,12 @@ function getSecondItems(arr) {
  *  [ 'a', 'b', 'c', null ] => [ 'a', 'b','b', 'c','c','c',  null,null,null,null ]
  *  [ 1,2,3,4,5 ] => [ 1, 2,2, 3,3,3, 4,4,4,4, 5,5,5,5,5 ]
  */
-// function propagateItemsByPositionIndex(arr) {
-function propagateItemsByPositionIndex(/* arr */) {
-  // const result = [];
-  // arr.map((item, index) => result.push(`${String(item)} `
-  // .repeat(index + 1).trimEnd().replaceAll(' ', ',')));
-  // return result;
-  throw new Error('Not implemented');
+function propagateItemsByPositionIndex(arr) {
+  return arr.reduce((res, item, index) => {
+    const arr1 = new Array(index + 1).fill(item);
+    res.push(...arr1);
+    return res;
+  }, []);
 }
 
 /**
@@ -547,8 +546,18 @@ function distinct(arr) {
  *    "Poland" => ["Lodz"]
  *   }
  */
-function group(/* array, keySelector, valueSelector */) {
-  throw new Error('Not implemented');
+function group(array, keySelector, valueSelector) {
+  const map1 = new Map();
+  return array.reduce((res, item) => {
+    const key = keySelector(item);
+    const value = [valueSelector(item)];
+    if (res.has(key)) {
+      const a = res.get(key);
+      value.unshift(...a);
+    }
+    res.set(key, value);
+    return res;
+  }, map1);
 }
 
 /**
